@@ -109,6 +109,10 @@ class Guild(PrecisionRealmObject):
             ]
         return self.members
 
+    def populate_data(self):
+        _ = self.get_members(update=True)
+        return True
+
     @staticmethod
     def from_search_result(result):
         return Guild(
@@ -185,11 +189,11 @@ class Character(PrecisionRealmObject):
 
 @attr.s
 class ArenaTeam(PrecisionRealmObject):
-    type_: int = attr.ib()
+    type: int = attr.ib()
     name: str = attr.ib()
 
     def __repr__(self):
-        return "ArenaTeam(type={0}x{0}, name={1}".format(self.type_, self.name)
+        return "ArenaTeam(type={0}x{0}, name={1}".format(self.type, self.name)
 
     @staticmethod
     def from_search_result(result):
@@ -197,5 +201,5 @@ class ArenaTeam(PrecisionRealmObject):
             guid = result["Id"],
             realm = Realm(result["Realm"]),
             name = result["Name"],
-            type_ = result["Type"]
+            type = result["Type"]
         )

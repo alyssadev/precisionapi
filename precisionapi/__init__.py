@@ -1,21 +1,28 @@
 from .models import Realm, Race, Class, Gender, Guild, GuildRank, Character, ArenaTeam
+from .models import PrecisionRealmObject as _pro
 from .util import get, post
 from datetime import datetime
 
-def search(*args, **kwargs):
-    return list(_search(*args, **kwargs))
-
-def _search(term):
+def search(term, filter: _pro=None):
     results = post("/Characters/ArmorySearch.php", json={"term": term}).json()
+    out = []
     for result in results:
         if result["ResultType"] == "character":
-            yield Character.from_search_result(result)
+            out.append(Character.from_search_result(result))
         if result["ResultType"] == "guild":
-            yield Guild.from_search_result(result)
+            out.append(Guild.from_search_result(result))
         if result["ResultType"] == "arenateam":
-            yield ArenaTeam.from_search_result(result)
+            out.append(ArenaTeam.from_search_result(result))
+    if filter:
+        out = [r for r in out if type(r) is filter]
+    return out
 
 def get_character(realm: Realm, guid: int):
     character = Character(realm=realm, guid=guid)
     character.populate_data()
     return character
+
+def get_guild(realm: Realm, guid: int):
+    guild = Guild(realm=realm, guid=guid)
+    guild.populate_data()
+    return guild
