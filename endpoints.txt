@@ -42,8 +42,12 @@ search: /Characters/ArmorySearch.php
     "Rating": 48,
     "Realm": "1"
    }
+
 character progression (slow!): /Characters/GetCharacterProgression.php
+character armory: /Characters/GetCharacterArmoryInfo.php
+character data: /Characters/GetCharacterData.php
  guid: character unique id
+
 guild members: /Characters/GetGuildMembers.php
  guildid: guild unique id
 

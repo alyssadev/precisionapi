@@ -1,9 +1,10 @@
 import attr
 import requests
 from datetime import datetime, timedelta
+import typing
 
 from .variables import API_URL
-from .util import retrieve_all_results
+from .util import retrieve_all_results, get
 
 class Realm:
     realms = {
@@ -64,12 +65,43 @@ class Gender:
         return self.genders[self.gender]
 
 @attr.s
+class Specialization:
+    name: str = attr.ib()
+    count: int = attr.ib()
+    mainspec: bool = attr.ib()
+    def __repr__(self):
+        return f"{self.name}: {self.count}, {'Main' if self.mainspec else 'Off'}"
+    @staticmethod
+    def from_armory(data, mainspec: bool):
+        return Specialization(data["TalentGroupName"], data["TalentCount"], mainspec)
+
+@attr.s
+class Profession:
+    profession: str = attr.ib()
+    value: int = attr.ib()
+    def __repr__(self):
+        return f"{self.profession} ({self.value})"
+
+@attr.s
+class Item:
+    guid: int = attr.ib()
+    name: str = attr.ib()
+    slot: int = attr.ib(default=None)
+
+@attr.s
 class PrecisionObject:
     guid: int = attr.ib()
+
+@attr.s
+class PrecisionRealmObject(PrecisionObject):
     realm: Realm = attr.ib()
 
 @attr.s
-class Guild(PrecisionObject):
+class Account(PrecisionObject):
+    name: str = attr.ib(default=None)
+
+@attr.s
+class Guild(PrecisionRealmObject):
     lastupdate: datetime = None
     members: list = None
     def get_members(self, update=False, limit=None):
@@ -82,7 +114,6 @@ class Guild(PrecisionObject):
                 Character(
                     guid = m["0"],
                     realm = Realm(m["realm"]),
-                    lastupdate = self.lastupdate,
                     name = m["1"],
                     level = m["2"],
                     race = Race(m["3"]),
@@ -103,20 +134,55 @@ class GuildRank:
     rname: str = attr.ib()
 
 @attr.s
-class Character(PrecisionObject):
-    name: str = attr.ib()
-    level: int = attr.ib()
-    race: Race = attr.ib()
-    gender: Gender = attr.ib()
-    class_: Class = attr.ib()
-    rank: GuildRank = attr.ib()
-    offnote: str = attr.ib()
-    pnote: str = attr.ib()
-    guild: Guild = attr.ib()
-    lastupdate: datetime = attr.ib(default=attr.Factory(datetime.now), repr=False)
+class Character(PrecisionRealmObject):
+    account: Account = attr.ib(default=None)
+    gm: bool = attr.ib(default=None)
+    name: str = attr.ib(default=None)
+    level: int = attr.ib(default=None)
+    money: int = attr.ib(default=None)
+    race: Race = attr.ib(default=None)
+    gender: Gender = attr.ib(default=None)
+    class_: Class = attr.ib(default=None)
+    achievement_points: int = attr.ib(default=None)
+    professions: typing.List[Profession] = attr.ib(default=None)
+    gear: typing.List[Item] = attr.ib(default=None)
+    mainspec: Specialization = attr.ib(default=None)
+    offspec: Specialization = attr.ib(default=None)
+
+    offnote: str = attr.ib(default=None)
+    pnote: str = attr.ib(default=None)
+    guild: Guild = attr.ib(default=None)
+    rank: GuildRank = attr.ib(default=None)
+
+    lastupdate: datetime = attr.ib(default=attr.Factory(datetime.now))
+
+    def populate_data(self):
+        p = {"realm": self.realm.realm, "guid": self.guid}
+        self.data = {k:v for k,v in get("/Characters/GetCharacterData.php", params=p).json().items() if not k.isdigit()}
+        self.armory = get("/Characters/GetCharacterArmoryInfo.php", params=p).json()
+        self.account = Account(self.data["account"])
+        self.gm = self.armory["IsGM"]
+        self.name = self.data["name"]
+        self.level = self.data["level"]
+#        self.money = self.armory["Money"]
+        self.race = Race(self.data["race"])
+        self.gender = Gender(self.data["gender"])
+        self.class_ = Class(self.data["class"])
+        self.achievement_points = int(self.armory["AchievementPoints"])
+
+        if not self.guild or (self.guild.guid != self.armory["GuildInfo"]["GuildId"]):
+            self.guild = Guild(realm=self.realm, guid=self.armory["GuildInfo"]["GuildId"])
+
+        self.professions = [Profession(p["Name"], p["Value"]) for p in self.armory["PrimaryProfessions"]]
+        self.professions += [Profession(p["Name"], p["Value"]) for p in self.armory["SecundaryProfessions"]]
+        self.gear = [Item(i["ItemEntry"], i["ItemName"], i["Slot"]) for i in self.armory["GearData"]]
+        self.mainspec = Specialization.from_armory(self.armory["CharacterSpecs"]["MainSpec"], True)
+        self.offspec = Specialization.from_armory(self.armory["CharacterSpecs"]["OffSpec"], False)
+        self.lastupdate = datetime.now()
+        return True
 
 @attr.s
-class ArenaTeam(PrecisionObject):
+class ArenaTeam(PrecisionRealmObject):
     type_: int = attr.ib()
     name: str = attr.ib()
     def __repr__(self):

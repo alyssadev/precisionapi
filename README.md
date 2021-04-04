@@ -10,7 +10,7 @@ Implemented
   - [x] Fetch guild members
 - [ ] Character data
   - [x] Fetch basic character information via guild member list
-  - [ ] Fetch armory data (equipment, spec, pvp stats, professions, recent activity)
+  - [x] Fetch armory data (equipment, spec, pvp stats, professions, recent activity)
   - [ ] Fetch talent trees
   - [ ] Fetch achievements
   - [ ] Fetch progression data
