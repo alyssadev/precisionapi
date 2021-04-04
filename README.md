@@ -6,6 +6,7 @@ A library to fetch data from [Precision WoW](https://www.precisionwow.com/), inc
 Implemented
 -----------
 
+- [x] Search
 - [ ] Guild data
   - [x] Fetch guild members
 - [ ] Character data

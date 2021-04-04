@@ -1,10 +1,13 @@
-from requests import get as _get
+import requests as _r
 import json
 from .variables import API_URL
 from sys import stderr
 
 def get(endpoint, *args, **kwargs):
-    return _get(API_URL + endpoint, *args, **kwargs)
+    return _r.get(API_URL + endpoint, *args, **kwargs)
+
+def post(endpoint, *args, **kwargs):
+    return _r.post(API_URL + endpoint, *args, **kwargs)
 
 def retrieve_all_results(endpoint, params, limit=None):
     results = []

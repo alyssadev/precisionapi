@@ -127,6 +127,14 @@ class Guild(PrecisionRealmObject):
             ]
         return self.members
 
+    @staticmethod
+    def from_search_result(result):
+        return Guild(
+            guid = result["Id"],
+            realm = Realm(result["Realm"]),
+            name = result["Name"]
+        )
+
 @attr.s
 class GuildRank:
     guild: Guild = attr.ib()
@@ -135,24 +143,24 @@ class GuildRank:
 
 @attr.s
 class Character(PrecisionRealmObject):
-    account: Account = attr.ib(default=None)
-    gm: bool = attr.ib(default=None)
     name: str = attr.ib(default=None)
     level: int = attr.ib(default=None)
-    money: int = attr.ib(default=None)
-    race: Race = attr.ib(default=None)
-    gender: Gender = attr.ib(default=None)
+    account: Account = attr.ib(default=None, repr=False)
+    gm: bool = attr.ib(default=None, repr=False)
+    money: int = attr.ib(default=None, repr=False)
+    race: Race = attr.ib(default=None, repr=False)
+    gender: Gender = attr.ib(default=None, repr=False)
     class_: Class = attr.ib(default=None)
-    achievement_points: int = attr.ib(default=None)
-    professions: typing.List[Profession] = attr.ib(default=None)
-    gear: typing.List[Item] = attr.ib(default=None)
-    mainspec: Specialization = attr.ib(default=None)
-    offspec: Specialization = attr.ib(default=None)
+    achievement_points: int = attr.ib(default=None, repr=False)
+    professions: typing.List[Profession] = attr.ib(default=None, repr=False)
+    gear: typing.List[Item] = attr.ib(default=None, repr=False)
+    mainspec: Specialization = attr.ib(default=None, repr=False)
+    offspec: Specialization = attr.ib(default=None, repr=False)
 
-    offnote: str = attr.ib(default=None)
-    pnote: str = attr.ib(default=None)
+    offnote: str = attr.ib(default=None, repr=False)
+    pnote: str = attr.ib(default=None, repr=False)
     guild: Guild = attr.ib(default=None)
-    rank: GuildRank = attr.ib(default=None)
+    rank: GuildRank = attr.ib(default=None, repr=False)
 
     lastupdate: datetime = attr.ib(default=attr.Factory(datetime.now))
 
@@ -181,9 +189,29 @@ class Character(PrecisionRealmObject):
         self.lastupdate = datetime.now()
         return True
 
+    @staticmethod
+    def from_search_result(result):
+        return Character(
+            guid = result["Id"],
+            realm = Realm(result["Realm"]),
+            name = result["Name"],
+            level = result["Level"],
+            class_ = Class(result["Class"]),
+            race = Race(result["Race"]),
+            gender = Gender(result["Gender"])
+        )
+
 @attr.s
 class ArenaTeam(PrecisionRealmObject):
     type_: int = attr.ib()
     name: str = attr.ib()
     def __repr__(self):
         return "ArenaTeam(type={0}x{0}, name={1}".format(self.type_, self.name)
+    @staticmethod
+    def from_search_result(result):
+        return ArenaTeam(
+            guid = result["Id"],
+            realm = Realm(result["Realm"]),
+            name = result["Name"],
+            type_ = result["Type"]
+        )
