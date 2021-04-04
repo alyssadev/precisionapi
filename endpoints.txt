@@ -1,0 +1,59 @@
+?realm=1 (0 for ptr)
+paginated with ?page=n
+
+api base: https://www.precisionwow.com/Data/WebService
+
+changelog: /GetChangelog.php
+
+armory:
+search: /Characters/ArmorySearch.php
+ post json: {"term": searchterm}
+ returns list of arrays:
+  Character:
+   {
+    "Id": 9879,
+    "Name": "Alymage",
+    "Description": "Level 60 Blood Elf Mage",
+    "ResultType": "character",
+    "Guid": 9879,
+    "Level": 60,
+    "ClassName": "Mage",
+    "Class": 8,
+    "Race": 10,
+    "Gender": 1,
+    "Realm": "1"
+   }
+  Guild:
+   {
+    "Id": 6,
+    "Name": "Synergy",
+    "Description": "Guild (131 members)",
+    "ResultType": "guild",
+    "Realm": "1",
+    "TotalMembers": 131
+   }
+  Arena team:
+   {
+    "Id": 29,
+    "Name": "AlysPallies",
+    "Description": "Arena Team 2v2 48 rating",
+    "ResultType": "arenateam",
+    "Type": 2,
+    "Rating": 48,
+    "Realm": "1"
+   }
+character progression (slow!): /Characters/GetCharacterProgression.php
+ guid: character unique id
+guild members: /Characters/GetGuildMembers.php
+ guildid: guild unique id
+
+rankings:
+top killers: /Characters/GetRankingTopKillers.php
+top achievers: /Characters/GetRankingTopAchievers.php
+top progression chars: /Characters/GetCharacterProgressionRanking.php
+top progression guilds: /Characters/GetGuildProgressionRanking.php
+arena rankings: /Characters/GetArenaRanking.php
+ type: 2/3/5 (2x2, 3x3, 5x5)
+ season: zero indexed count of season
+
+
