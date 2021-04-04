@@ -2,67 +2,48 @@ import attr
 import requests
 from datetime import datetime, timedelta
 import typing
+from enum import IntEnum
 
 from .variables import API_URL
 from .util import retrieve_all_results, get
 
-class Realm:
-    realms = {
-        0: "PTR",
-        1: "Precision"
-    }
-    def __init__(self, realm: int):
-        self.realm = int(realm)
+class Enum(IntEnum):
     def __repr__(self):
-        return self.realms[self.realm]
+        return self.name
 
-class Race:
-    races = {
-        1: "Human",
-        2: "Orc",
-        3: "Dwarf",
-        4: "Night Elf",
-        5: "Undead",
-        6: "Tauren",
-        7: "Gnome",
-        8: "Troll",
-        9: "Goblin",
-        10:"Blood Elf",
-        11:"Draenei",
-        22:"Worgen"
-    }
-    def __init__(self, race: int):
-        self.race = int(race)
-    def __repr__(self):
-        return self.races[self.race]
+class Realm(Enum):
+    PTR = 0
+    Precision = 1
 
-class Class:
-    classes = {
-        1: "Warrior",
-        2: "Paladin",
-        3: "Hunter",
-        4: "Rogue",
-        5: "Priest",
-        6: "Death Knight",
-        7: "Shaman",
-        8: "Mage",
-        9: "Warlock",
-        11: "Druid"
-    }
-    def __init__(self, class_: int):
-        self.class_ = int(class_)
-    def __repr__(self):
-        return self.classes[self.class_]
+class Race(Enum):
+    Human    = 1
+    Orc      = 2
+    Dwarf    = 3
+    NightElf = 4
+    Undead   = 5
+    Tauren   = 6
+    Gnome    = 7
+    Troll    = 8
+    Goblin   = 9
+    BloodElf = 10
+    Draenei  = 11
+    Worgen   = 22
 
-class Gender:
-    genders = {
-        0: "Male",
-        1: "Female"
-    }
-    def __init__(self, gender: int):
-        self.gender = int(gender)
-    def __repr__(self):
-        return self.genders[self.gender]
+class Class(Enum):
+    Warrior     = 1
+    Paladin     = 2
+    Hunter      = 3
+    Rogue       = 4
+    Priest      = 5
+    DeathKnight = 6
+    Shaman      = 7
+    Mage        = 8
+    Warlock     = 9
+    Druid       = 11
+
+class Gender(Enum):
+    Male = 0
+    Female = 1
 
 @attr.s
 class Specialization:
@@ -104,16 +85,17 @@ class Account(PrecisionObject):
 class Guild(PrecisionRealmObject):
     lastupdate: datetime = None
     members: list = None
+
     def get_members(self, update=False, limit=None):
         if update or not self.members or (
                 self.lastupdate and (datetime.now() - self.lastupdate) > timedelta(minutes=30)
             ):
-            self.members_raw = retrieve_all_results("/Characters/GetGuildMembers.php", {"guildid": self.guid, "realm": self.realm.realm}, limit=limit)
+            self.members_raw = retrieve_all_results("/Characters/GetGuildMembers.php", {"guildid": self.guid, "realm": self.realm.value}, limit=limit)
             self.lastupdate = datetime.now()
             self.members = [
                 Character(
                     guid = m["0"],
-                    realm = Realm(m["realm"]),
+                    realm = Realm(int(m["realm"])),
                     name = m["1"],
                     level = m["2"],
                     race = Race(m["3"]),
@@ -165,7 +147,7 @@ class Character(PrecisionRealmObject):
     lastupdate: datetime = attr.ib(default=attr.Factory(datetime.now))
 
     def populate_data(self):
-        p = {"realm": self.realm.realm, "guid": self.guid}
+        p = {"realm": self.realm.value, "guid": self.guid}
         self.data = {k:v for k,v in get("/Characters/GetCharacterData.php", params=p).json().items() if not k.isdigit()}
         self.armory = get("/Characters/GetCharacterArmoryInfo.php", params=p).json()
         self.account = Account(self.data["account"])
@@ -205,8 +187,10 @@ class Character(PrecisionRealmObject):
 class ArenaTeam(PrecisionRealmObject):
     type_: int = attr.ib()
     name: str = attr.ib()
+
     def __repr__(self):
         return "ArenaTeam(type={0}x{0}, name={1}".format(self.type_, self.name)
+
     @staticmethod
     def from_search_result(result):
         return ArenaTeam(
