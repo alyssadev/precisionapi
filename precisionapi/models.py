@@ -72,11 +72,11 @@ class PrecisionObject:
 class Guild(PrecisionObject):
     lastupdate: datetime = None
     members: list = None
-    def get_members(self, update=False):
+    def get_members(self, update=False, limit=None):
         if update or not self.members or (
                 self.lastupdate and (datetime.now() - self.lastupdate) > timedelta(minutes=30)
             ):
-            self.members_raw = retrieve_all_results("/Characters/GetGuildMembers.php", {"guildid": self.guid, "realm": self.realm.realm})
+            self.members_raw = retrieve_all_results("/Characters/GetGuildMembers.php", {"guildid": self.guid, "realm": self.realm.realm}, limit=limit)
             self.lastupdate = datetime.now()
             self.members = [
                 Character(

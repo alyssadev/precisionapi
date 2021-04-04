@@ -3,7 +3,7 @@ import json
 from .variables import API_URL
 from sys import stderr
 
-def retrieve_all_results(endpoint, params):
+def retrieve_all_results(endpoint, params, limit=None):
     url = API_URL + endpoint
     results = []
     page = 0
@@ -17,7 +17,9 @@ def retrieve_all_results(endpoint, params):
             raise
         if not data:
             break
-        print(f"page {page}", file=stderr)
+#        print(f"page {page}", file=stderr)
         results += data
+        if limit:
+            break
         page += 1
     return results
