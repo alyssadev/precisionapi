@@ -1,0 +1,212 @@
+{
+    "Guid": 9832,
+    "IsGM": false,
+    "AchievementPoints": "300",
+    "Level": 60,
+    "Gender": 1,
+    "Name": "Alyssile",
+    "RaceId": 3,
+    "RaceName": "Dwarf",
+    "ClassId": 5,
+    "ClassName": "Priest",
+    "TotalKills": 4,
+    "TodayKills": 0,
+    "ProgressionPoints": 0,
+    "ArenaTeams": [
+        {
+            "TeamId": 29,
+            "Name": "AlysPallies",
+            "Rating": 48,
+            "Rank": 7,
+            "Type": 2
+        }
+    ],
+    "PrimaryProfessions": [
+        {
+            "Name": "Mining",
+            "Image": "mining.png",
+            "Value": 75
+        },
+        {
+            "Name": "Engineering",
+            "Image": "engineering.png",
+            "Value": 81
+        }
+    ],
+    "SecundaryProfessions": [
+        {
+            "Name": "Cooking",
+            "Image": "cooking.jpg",
+            "Value": 1
+        },
+        {
+            "Name": "Fishing",
+            "Image": "fishing.jpg",
+            "Value": 5
+        }
+    ],
+    "GuildInfo": {
+        "GuildId": 6,
+        "GuildName": "Synergy",
+        "GuildRank": 4
+    },
+    "GearData": [
+        {
+            "Slot": 0,
+            "ItemEntry": 16693,
+            "ItemName": "Devout Crown",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_crown_01.jpg"
+        },
+        {
+            "Slot": 1,
+            "ItemEntry": 22149,
+            "ItemName": "Beads of Ogre Mojo",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_jewelry_amulet_05.jpg"
+        },
+        {
+            "Slot": 2,
+            "ItemEntry": 16695,
+            "ItemName": "Devout Mantle",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_shoulder_02.jpg"
+        },
+        {
+            "Slot": 3,
+            "ItemEntry": 6833,
+            "ItemName": "White Tuxedo Shirt",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_shirt_08.jpg"
+        },
+        {
+            "Slot": 4,
+            "ItemEntry": 22083,
+            "ItemName": "Virtuous Robe",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_chest_cloth_11.jpg"
+        },
+        {
+            "Slot": 5,
+            "ItemEntry": 19094,
+            "ItemName": "Stormpike Cloth Girdle",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_belt_04.jpg"
+        },
+        {
+            "Slot": 6,
+            "ItemEntry": 16694,
+            "ItemName": "Devout Skirt",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_pants_08.jpg"
+        },
+        {
+            "Slot": 7,
+            "ItemEntry": 20094,
+            "ItemName": "Highlander's Cloth Boots",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_boots_cloth_07.jpg"
+        },
+        {
+            "Slot": 8,
+            "ItemEntry": 16697,
+            "ItemName": "Devout Bracers",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_belt_31.jpg"
+        },
+        {
+            "Slot": 9,
+            "ItemEntry": 12554,
+            "ItemName": "Hands of the Exalted Herald",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_gauntlets_32.jpg"
+        },
+        {
+            "Slot": 10,
+            "ItemEntry": 22721,
+            "ItemName": "Band of Servitude",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_jewelry_ring_16.jpg"
+        },
+        {
+            "Slot": 11,
+            "ItemEntry": 23237,
+            "ItemName": "Ring of the Eternal Flame",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_jewelry_ring_48naxxramas.jpg"
+        },
+        {
+            "Slot": 12,
+            "ItemEntry": 18371,
+            "ItemName": "Mindtap Talisman",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_battery_02.jpg"
+        },
+        {
+            "Slot": 13,
+            "ItemEntry": 12930,
+            "ItemName": "Briarwood Reed",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_misc_root_02.jpg"
+        },
+        {
+            "Slot": 14,
+            "ItemEntry": 16342,
+            "ItemName": "Sergeant's Cape",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_misc_cape_21.jpg"
+        },
+        {
+            "Slot": 15,
+            "ItemEntry": 11932,
+            "ItemName": "Guiding Stave of Wisdom",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_staff_30.jpg"
+        },
+        {
+            "Slot": 17,
+            "ItemEntry": 19108,
+            "ItemName": "Wand of Biting Cold",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_wand_01.jpg"
+        },
+        {
+            "Slot": 18,
+            "ItemEntry": 20132,
+            "ItemName": "Arathor Battle Tabard",
+            "ItemImage": "https://wotlk.evowow.com/static/images/wow/icons/large/inv_shirt_guildtabard_01.jpg"
+        }
+    ],
+    "CharacterFeed": [
+        {
+            "Guid": 9832,
+            "Type": 1,
+            "Data": 973,
+            "ItemName": null,
+            "AchievementName": "5 Daily Quests Complete",
+            "BossName": null,
+            "Date": 1617639219,
+            "Counter": 0,
+            "TimeElapsed": "22 hours ago"
+        },
+        {
+            "Guid": 9832,
+            "Type": 1,
+            "Data": 220,
+            "ItemName": null,
+            "AchievementName": "Stormpike Perfection",
+            "BossName": null,
+            "Date": 1617637197,
+            "Counter": 0,
+            "TimeElapsed": "22 hours ago"
+        },
+        {
+            "Guid": 9832,
+            "Type": 1,
+            "Data": 218,
+            "ItemName": null,
+            "AchievementName": "Alterac Valley Victory",
+            "BossName": null,
+            "Date": 1617637197,
+            "Counter": 0,
+            "TimeElapsed": "22 hours ago"
+        }
+    ],
+    "CharacterSpecs": {
+        "MainSpec": {
+            "TalentGroupId": 0,
+            "TalentGroupName": "Shadow",
+            "TalentCount": 17,
+            "TalentGroupIcon": "spell_shadow_shadowwordpain"
+        },
+        "OffSpec": {
+            "TalentGroupId": 1,
+            "TalentGroupName": "Discipline",
+            "TalentCount": 19,
+            "TalentGroupIcon": "spell_holy_wordfortitude"
+        }
+    }
+}

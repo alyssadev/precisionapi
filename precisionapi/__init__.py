@@ -1,7 +1,10 @@
-from .models import Realm, Race, Class, Gender, Guild, GuildRank, Character, ArenaTeam, Progression
+from .models.enums import Realm, Race, Class, Gender
+from .models.guild import Guild, GuildRank
+from .models.character import Character
+from .models.arena import ArenaTeam
+from .models.progression import Progression
 from .models import PrecisionRealmObject as _pro
 from .util import get, post
-from datetime import datetime
 
 def search(term, filter: _pro=None):
     results = post("/Characters/ArmorySearch.php", json={"term": term}).json()
