@@ -74,3 +74,24 @@ class Character(PrecisionRealmObject):
             race = Race(result["Race"]),
             gender = Gender(result["Gender"])
         )
+
+    @staticmethod
+    def from_data(data: dict):
+        data = dict(data)
+        if not "guid" in data:
+            raise Exception("No guid specified")
+        if "race" in data:
+            data["race"] = Race(data["race"])
+        if "gender" in data:
+            data["gender"] = Gender(data["gender"])
+        if "class" in data:
+            data["class"] = Class(data["class"])
+        if "realm" in data:
+            data["realm"] = Realm(data["realm"])
+        else:
+            data["realm"] = Realm(1)
+        if "class" in data and not "class_" in data:
+            data["class_"] = data["class"]
+        return Character(
+            **{k:v for k,v in data.items() if k in ["guid", "name", "race", "class_", "gender", "realm", "level", "money"]}
+        )

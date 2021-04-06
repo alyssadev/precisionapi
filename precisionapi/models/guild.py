@@ -1,14 +1,16 @@
 import attr
 from datetime import datetime, timedelta
 
-from ..util import retrieve_all_results
+from ..util import retrieve_all_results, get
 from .precision import PrecisionRealmObject
 from .enums import Realm, Race, Gender, Class
+from .ranking import GuildRanking
 
 @attr.s
 class Guild(PrecisionRealmObject):
     lastupdate: datetime = None
-    members: list = None
+    members: list = attr.ib(default=attr.Factory(list), repr=lambda l: str(len(l)))
+    name: str = attr.ib(default=None)
 
     def get_members(self, update=False, limit=None):
         from .character import Character
@@ -18,7 +20,7 @@ class Guild(PrecisionRealmObject):
             self.members_raw = retrieve_all_results("/Characters/GetGuildMembers.php", {"guildid": self.guid, "realm": self.realm.value}, limit=limit)
             self.lastupdate = datetime.now()
             self.members = [
-                _c.Character(
+                Character(
                     guid = m["0"],
                     realm = Realm(int(m["realm"])),
                     name = m["1"],
@@ -35,7 +37,12 @@ class Guild(PrecisionRealmObject):
         return self.members
 
     def populate_data(self):
-        _ = self.get_members(update=True)
+        rankings = get("/Characters/GetGuildProgressionRanking.php", params={"guid": self.guid, "realm": self.realm.value}).json()
+        g = [_ for _ in rankings if _["guildid"] == self.guid]
+        if len(g) >= 1:
+            self.ranking = GuildRanking(**{k:v for k,v in g[0].items() if not k.isdigit()})
+            self.name = self.ranking.name
+        _ = self.get_members()
         return True
 
     @staticmethod
