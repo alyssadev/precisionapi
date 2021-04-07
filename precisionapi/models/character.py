@@ -52,8 +52,11 @@ class Character(PrecisionRealmObject):
         self.class_ = Class(self.data["class"])
         self.achievement_points = int(self.armory["AchievementPoints"])
 
-        if not self.guild or (self.guild.guid != self.armory["GuildInfo"]["GuildId"]):
-            self.guild = Guild(realm=self.realm, guid=self.armory["GuildInfo"]["GuildId"])
+        if self.armory["GuildInfo"]:
+            if not self.guild or (self.guild and self.guild.guid != self.armory["GuildInfo"]["GuildId"]):
+                self.guild = Guild(realm=self.realm, guid=self.armory["GuildInfo"]["GuildId"])
+        else:
+            self.guild = None
 
         self.professions = [Profession(p["Name"], p["Value"]) for p in self.armory["PrimaryProfessions"]]
         self.professions += [Profession(p["Name"], p["Value"]) for p in self.armory["SecundaryProfessions"]]
