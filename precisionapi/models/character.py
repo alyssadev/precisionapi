@@ -50,7 +50,7 @@ class Character(PrecisionRealmObject):
         self.race = Race(self.data["race"])
         self.gender = Gender(self.data["gender"])
         self.class_ = Class(self.data["class"])
-        self.achievement_points = int(self.armory["AchievementPoints"])
+        self.achievement_points = int(self.armory["AchievementPoints"]) if self.armory["AchievementPoints"] else 0
 
         if self.armory["GuildInfo"]:
             if not self.guild or (self.guild and self.guild.guid != self.armory["GuildInfo"]["GuildId"]):
