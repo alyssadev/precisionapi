@@ -15,9 +15,7 @@ from .progression import Progression
 class Character(PrecisionRealmObject):
     name: str = attr.ib(default=None)
     level: int = attr.ib(default=None)
-    account: Account = attr.ib(default=None, repr=False)
     gm: bool = attr.ib(default=None, repr=False)
-    money: int = attr.ib(default=None, repr=False)
     race: Race = attr.ib(default=None, repr=False)
     gender: Gender = attr.ib(default=None, repr=False)
     class_: Class = attr.ib(default=None)
@@ -42,11 +40,9 @@ class Character(PrecisionRealmObject):
             # the response from GetCharacterProgression is json encoded in a string, twice. for some reason
             from json import loads
             self.progression = Progression.from_progression(loads(get("/Characters/GetCharacterProgression.php", params=p).json()))
-        self.account = Account(self.data["account"])
         self.gm = self.armory["IsGM"]
         self.name = self.data["name"]
         self.level = self.data["level"]
-#        self.money = self.armory["Money"]
         self.race = Race(self.data["race"])
         self.gender = Gender(self.data["gender"])
         self.class_ = Class(self.data["class"])
